@@ -43,3 +43,5 @@ chainlit run main.py
 ```
 Once you run the cli, then the Chainlit UI will open on your browser.  
 You can try to ask on the UI.
+
+![](chainlit-qa.png)
