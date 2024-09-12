@@ -29,14 +29,14 @@ bq mk ${BQ_DATASET_ID}
 bq load ${BQ_DATASET_ID}.${BQ_TABLE_NAME} ./sample/data.csv store_name:STRING,product_code:STRING,product_name:STRING,quantity:INTEGER,last_update:TIMESTAMP
 ```
 
-### A. API mode
+### A. API mode on localhost
 1. Run as api server
 ```
 python api.py
 ```
 You can test the api on "http://localhost:8080/docs".
 
-### B. Chat mode
+### B. Chat mode on localhost
 2. Run as Chainlit UI mode
 ```
 chainlit run main.py
