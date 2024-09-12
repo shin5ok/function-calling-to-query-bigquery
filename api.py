@@ -36,7 +36,6 @@ client = bigquery.Client(credentials=credentials, project=PROJECT_ID)
 
 
 class InventoryRequest(BaseModel):
-    customer_name: str
     store_name: str
     product_name: str
 
@@ -46,7 +45,6 @@ def get_inventory(request: InventoryRequest):
     """
     query = f"""
     SELECT 
-        customer_name,
         store_name,
         product_code,
         product_name,
@@ -55,15 +53,13 @@ def get_inventory(request: InventoryRequest):
     FROM 
         `{PROJECT_ID}.{DATASET_ID}.{TABLE_NAME}`
     WHERE 
-        customer_name = @customer_name
-        AND store_name = @store_name
+        store_name = @store_name
         AND product_name = @product_name
     """
     print(query)
 
     job_config = bigquery.QueryJobConfig(
         query_parameters=[
-            bigquery.ScalarQueryParameter("customer_name", "STRING", request.customer_name),
             bigquery.ScalarQueryParameter("store_name", "STRING", request.store_name),
             bigquery.ScalarQueryParameter("product_name", "STRING", request.product_name),
         ]
@@ -80,7 +76,6 @@ def get_inventory(request: InventoryRequest):
         inventory_data = next(results)
         
         return {
-            "customer_name": inventory_data.customer_name,
             "store_name": inventory_data.store_name,
             "product_code": inventory_data.product_code,
             "product_name": inventory_data.product_name,

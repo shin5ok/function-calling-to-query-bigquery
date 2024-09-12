@@ -17,10 +17,6 @@ get_inventry_func = FunctionDeclaration(
     parameters={
         "type": "object",
         "properties": {
-            "customer_name": {
-                "type": "string",
-                "description": "customer name",
-            },
             "store_name": {
                 "type": "string",
                 "description": "store name",
@@ -30,7 +26,7 @@ get_inventry_func = FunctionDeclaration(
                 "description": "product name",
             },
         },
-        "required": ["customer_name", "store_name", "product_name"]
+        "required": ["store_name", "product_name"]
     },
 )
 
