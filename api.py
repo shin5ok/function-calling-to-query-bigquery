@@ -71,9 +71,11 @@ def get_inventory(request: InventoryRequest):
         results = query_job.result()
 
         if results.total_rows == 0:
+            pp(results)
             raise HTTPException(status_code=404, detail="Inventory data not found")
 
         inventory_data = next(results)
+        pp(inventory_data)
         
         return {
             "store_name": inventory_data.store_name,
