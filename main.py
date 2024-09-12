@@ -63,20 +63,23 @@ async def _on_message(message: cl.Message):
     """
 
     response = chat.send_message(prompt)
-    response = response.candidates[0].content.parts[0]
-    i = t.InventoryRequest(**response.function_call.args)
+    pp(response)
+    part = response.candidates[0].content.parts[0]
+    pp(part)
 
-    content = "見つからないので、再度、入力してね"
     try:
 
-        if response.function_call.name == "get_inventry":
+        if part.function_call.name == "get_inventry":
             pp("get_inventry")
+            i = t.InventoryRequest(**part.function_call.args)
             inventry = t.get_inventory(i)
             pp(inventry)
             content = inventry
+        else:
+            content = part.text
 
     except Exception as e:
-        content = str(e)
+        content = f"見つからないので、再度、入力してね({str(e)})"
     finally:
         res = cl.Message(content=content)
         await res.send()
