@@ -1,7 +1,6 @@
 from pprint import pprint as pp
 
 import chainlit as cl
-from chainlit.input_widget import Select, Slider
 
 from vertexai.generative_models import FunctionDeclaration, GenerativeModel, Part, Tool
 
@@ -63,12 +62,9 @@ async def _on_message(message: cl.Message):
     """
 
     response = chat.send_message(prompt)
-    pp(response)
     part = response.candidates[0].content.parts[0]
-    pp(part)
 
     try:
-
         if part.function_call.name == "get_inventry":
             pp("get_inventry")
             i = t.InventoryRequest(**part.function_call.args)
@@ -79,7 +75,9 @@ async def _on_message(message: cl.Message):
             content = part.text
 
     except Exception as e:
-        content = f"見つからないので、再度、入力してね({str(e)})"
+        content = "見つからないので、再度、入力してね"
+        if e:
+            content += f" ({str(e)})"
     finally:
         res = cl.Message(content=content)
         await res.send()
